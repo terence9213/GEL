@@ -1,4 +1,4 @@
 # GEL
 Graphics Engine Library (Javascript)
 
-Read me!
+GEL is a minimalistic Javascript library for creating powerful graphics using the HTML canvas
