@@ -81,16 +81,18 @@ var GEL = {
         SceneLibrary: [],
 
         //OBJ CLASS
-        Scene: function (draw) {
-            this.SceneIndex = GEL.SceneManager.SceneLibrary.length;
-            this.SceneElapsedTime = 0;
-            this.Draw = function (DELTA, delta) {
-                this.SceneElapsedTime += delta;
-                draw(DELTA, delta);
-            };
+        
 
-            //Store in scene library
-            GEL.SceneManager.SceneLibrary.push(this);
+        AddScene: function (scene) {
+            scene.SceneIndex = this.SceneLibrary.length;
+            this.SceneLibrary.push(scene);
+        },
+
+        AddScenes: function (sceneArray) {
+            sceneArray.forEach(function (scene, index) {
+                console.log("adding scene [" + index + "] ");
+                GEL.SceneManager.AddScene(scene);
+            });
         },
 
         DrawCurrentScene: function (DELTA, delta) {
@@ -101,6 +103,21 @@ var GEL = {
 
     },
 
+    //OBJECT CLASSES\\
+    Class: {
+        Scene: function (draw) {
+            this.SceneElapsedTime = 0;
+            this.Draw = function (DELTA, delta) {
+                this.SceneElapsedTime += delta;
+                draw(DELTA, delta);
+            };
+
+        },
+
+        Actor: function () {
+
+        }
+    },
 
 
     CTX: {
@@ -128,9 +145,37 @@ var GEL = {
             this.Context.clearRect(0, 0, this.SizeManager.Width, this.SizeManager.Height);
         },
 
+        //DRAW BASIC SHAPES
         Shape: {
-            Line: function () { },
-            Circle: function () { }
+            Line: function (ox, oy, tx, ty, w, clr, alpha) {
+                GEL.CTX.Context.globalAlpha = alpha ? alpha : 1;
+                GEL.CTX.Context.beginPath();
+
+                GEL.CTX.Context.lineWidth = w;
+                GEL.CTX.Context.strokeStyle = clr;
+                GEL.CTX.Context.moveTo(ox, oy);
+                GEL.CTX.Context.lineTo(tx, ty);
+                GEL.CTX.Context.stroke();
+
+                GEL.CTX.Context.closePath();
+                GEL.CTX.Context.globalAlpha = 1;
+            },
+            Circle: function (x, y, r, clr, alpha, fill, width) {
+                GEL.CTX.Context.globalAlpha = alpha ? alpha : 1;
+                GEL.CTX.Context.beginPath();
+                GEL.CTX.Context.arc(x, y, r, 0, Math.PI * 2, false);
+                if (fill) {
+                    GEL.CTX.Context.fillStyle = clr;
+                    GEL.CTX.Context.fill()
+                }
+                else {
+                    GEL.CTX.Context.strokeStyle = clr;
+                    GEL.CTX.Context.lineWidth = width;
+                    GEL.CTX.Context.stroke();
+                }
+                GEL.CTX.Context.closePath();
+                GEL.CTX.Context.globalAlpha = 1;
+            }
         },
 
         Text: {
@@ -166,10 +211,10 @@ var GEL = {
 
         Clr: {
             Black: "#000000",
-            White: "#ffffff"
+            White: "#ffffff",
+            Blue:  "#0000FF",
+            Green: "#008000"
         }
-
-
 
     }
 
