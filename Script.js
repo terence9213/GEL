@@ -62,8 +62,17 @@ InitialisaScenes = function () {
         GEL.CTX.Shape.Line(170, 200, 420, 200, 5, GEL.CTX.Clr.Blue, 1);
     });
 
+
+
+    //TEST SCENE
+    var scene2 = new GEL.Class.Scene(function (DELTA, delta) {
+        GEL.CTX.Text.Write(scene2.SceneElapsedTime, 300, 150);
+    });
+
+
     sceneArray.push(scene0);
     sceneArray.push(scene1);
+    sceneArray.push(scene2);
 
     return sceneArray;
 };

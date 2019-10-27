@@ -22,3 +22,8 @@ You can also call it GAME Engine Library if you want
                Begin loding external resources (images/sounds) here
                Begin constructing scenes 
 - 
+
+#Physics Engine
+- The physics engine updates or ticks at the begining of every every animation frame.
+- Physics calculations, collision detection and object vector movements are computed at the begining of the animation frame, BEFORE rendering begins.
+

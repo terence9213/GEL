@@ -3,9 +3,20 @@
 /* ---   Graphics Engine Library for Javascript   --- */
 /* -------------------------------------------------- */
 
+// --- CONSTANT DECLARATION --- \\
+
+//ENUMS
+const CollisionBodyType = {
+    NONE: 0,
+    CIRCLE: 1,
+    SQUARE: 2,
+    RECTANGLE: 3
+};
+
+
 var GEL = {
     Canvas: null,
-    
+
 
     Init: function (preInit, callback) {
 
@@ -41,7 +52,7 @@ var GEL = {
             var DELTA = GEL.Animation.LastFrameTimeStamp ? timeStamp - GEL.Animation.LastFrameTimeStamp : 0;
             var delta = DELTA * GEL.Animation.DilationFactor;
             GEL.Animation.ElapsedTime += delta;
-            GEL.Animation.FPS = Math.floor(1000/DELTA);
+            GEL.Animation.FPS = Math.floor(1000 / DELTA);
             if (++GEL.Animation.FrameCounter >= 20) {
                 GEL.Animation.FPSDisplay = GEL.Animation.FPS;
                 GEL.Animation.FrameCounter = 0;
@@ -81,7 +92,7 @@ var GEL = {
         SceneLibrary: [],
 
         //OBJ CLASS
-        
+
 
         AddScene: function (scene) {
             scene.SceneIndex = this.SceneLibrary.length;
@@ -114,8 +125,22 @@ var GEL = {
 
         },
 
-        Actor: function () {
+        Graphic: function () {
+            this.Render = function () { }
+        },
 
+        Actor: function () {
+            this.Position = { x: 0, y: 0 };
+            this.Graphics = [];
+            this.Render = function () {
+                this.Graphics.forEach(function (graphic, index) {
+                    graphic.Render();
+                });
+            };
+
+            this.HasPhysics = false;
+            this.CanCollide = false;
+            this.CollisionBody = null;
         }
     },
 
@@ -212,10 +237,47 @@ var GEL = {
         Clr: {
             Black: "#000000",
             White: "#ffffff",
-            Blue:  "#0000FF",
+            Blue: "#0000FF",
             Green: "#008000"
         }
 
+    },
+
+
+
+
+    Physics: {
+        Init: function () {
+            
+        },
+
+        MasterUpdate: function () {
+
+        },
+
+        Constants: {},
+
+        ObjectArray: [],
+
+        CollisionBody: function () {
+            this.Type = CollisionBodyType.NONE;
+            this.Coordinates = [];
+        }
+
+
+    },
+
+    Utils: {
+        Random: {
+            RandInt: function (max) {
+                return Math.floor(Math.random() * Math.floor(max));
+            },
+
+            RandVector: function () {
+
+            }
+
+        }
     }
 
 }
